@@ -141,6 +141,40 @@ Daily Detail Page
   ↓
 Expense Edit Page
 
+### Day 2.6 – Fixes and UX Polish
+
+This stage focused on stabilizing the product flow and improving usability.
+
+#### Fixes
+- Prevented crashes when amount input is empty in both Add and Edit pages
+- Fixed daily summary grouping to aggregate records by year-month-day instead of full timestamp
+- Fixed home screen daily delete to remove all records of the selected day
+- Fixed DailyDetail page to display all expense records of the selected day
+- Fixed DailyDetail page refresh after editing expense
+- Fixed DailyDetail crash caused by layout animation mismatch
+
+#### UX Improvements
+- Added delete confirmation dialog for:
+  - single expense deletion
+  - whole day deletion
+- Automatically return to Home when all records of the selected day are deleted
+- Added floating action button in DailyDetail for adding a new expense directly to the same day
+- Supported preset expense date when launching AddExpense from DailyDetail
+- Improved FAB safe area to avoid overlap with system navigation bar
+- Refined DailyDetail header with:
+  - daily total amount
+  - expense count
+- Refined detail card visual hierarchy and layout structure
+
+#### Result
+The app now supports a more complete and stable flow:
+
+Home (Daily Summary)
+→ Daily Detail
+→ Add / Edit Expense
+→ Delete Single / Delete All of Day
+→ Auto Refresh / Auto Return
+
 ### Upcoming
 
 Day 3  
