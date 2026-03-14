@@ -118,6 +118,28 @@ Material Design | UI components
 - Glide image loading
 - Image copy to app private storage
 - Auto refresh after saving expense
+### Day2.5
+Day 2.5
+Architecture redesign
+
+Home screen now shows:
+Daily expense summary cards
+
+Each card displays:
+- total amount
+- first expense photo
+- expense count
+- date
+
+Navigation flow:
+
+Home
+  ↓
+Daily Summary Card
+  ↓
+Daily Detail Page
+  ↓
+Expense Edit Page
 
 ### Upcoming
 
