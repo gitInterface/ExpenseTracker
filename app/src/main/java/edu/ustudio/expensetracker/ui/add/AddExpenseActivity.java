@@ -3,8 +3,10 @@ package edu.ustudio.expensetracker.ui.add;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 
 import edu.ustudio.expensetracker.R;
@@ -17,13 +19,13 @@ public class AddExpenseActivity extends AppCompatActivity {
     private EditText editAmount;
     private Button buttonSave;
     private ExpenseRepository repository;
-    private android.widget.ImageView imagePreview;
-    private android.widget.Button btnPickGallery;
-    private android.widget.Button btnTakePhoto;
+    private ImageView imagePreview;
+    private Button btnPickGallery;
+    private Button btnTakePhoto;
     private android.net.Uri selectedImageUri = null;
     private TextView txtDate;
     private long selectedDate;
-    private androidx.activity.result.ActivityResultLauncher<String> pickImageLauncher;
+    private ActivityResultLauncher<String> pickImageLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class AddExpenseActivity extends AppCompatActivity {
                         java.util.Calendar newCal = java.util.Calendar.getInstance();
                         newCal.set(year, month, dayOfMonth, 0, 0, 0);
 
-                        selectedDate = newCal.getTimeInMillis();
+                        selectedDate = getIntent().getLongExtra("presetExpenseDate", System.currentTimeMillis());
                         updateDateLabel();
 
                     },
@@ -97,7 +99,16 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     private void saveExpense() {
 
-        int amount = Integer.parseInt(editAmount.getText().toString());
+        String amountText = editAmount.getText().toString().trim();
+
+        // 金額不可為空
+        if (amountText.isEmpty()) {
+            editAmount.setError("請輸入金額");
+            editAmount.requestFocus();
+            return;
+        }
+
+        int amount = Integer.parseInt(amountText);
 
         ExpenseEntity expense = new ExpenseEntity();
         expense.amount = amount;
@@ -105,12 +116,14 @@ public class AddExpenseActivity extends AppCompatActivity {
         expense.expenseDate = selectedDate;
         expense.status = "UNCLASSIFIED";
         expense.needsReview = false;
+
         if (selectedImageUri != null) {
             String localPath = ImageStorageHelper.copyImageToAppStorage(this, selectedImageUri);
             expense.imageUri = localPath;
         } else {
             expense.imageUri = "";
         }
+
         expense.category = "";
 
         repository.insertAsync(expense, id -> {
@@ -119,7 +132,6 @@ public class AddExpenseActivity extends AppCompatActivity {
                 finish();
             });
         });
-
     }
 
     private void updateDateLabel() {

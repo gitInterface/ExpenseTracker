@@ -46,8 +46,9 @@
             android:id="@+id/editAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Amount"
+            android:hint="金額"
             android:inputType="number"
+            android:digits="0123456789"
             android:textSize="18sp"
             android:layout_marginTop="16dp"/>
 

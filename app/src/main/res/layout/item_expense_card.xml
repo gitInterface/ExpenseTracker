@@ -1,77 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:layout_marginBottom="14dp"
+    android:layout_height="220dp"
+    android:layout_marginBottom="16dp"
     app:cardCornerRadius="18dp"
     app:cardElevation="4dp">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- 左側圖片 -->
+        <!-- 背景圖片 -->
         <ImageView
             android:id="@+id/imgExpense"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:background="#EAEAEA"/>
+            android:background="#EFEFEF"/>
 
-        <!-- 右側資訊 -->
-        <LinearLayout
+        <!-- 柔和遮罩 -->
+        <View
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#22000000"/>
+
+        <!-- 左上 日期 -->
+        <TextView
+            android:id="@+id/txtDate"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/imgExpense"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="40dp"
-            android:orientation="vertical">
+            android:layout_gravity="top|start"
+            android:layout_margin="14dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:text="2026/03/06 18:30"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:background="#33000000"/>
 
-            <!-- 金額 -->
-            <TextView
-                android:id="@+id/txtAmountBadge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="$120"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
-
-            <!-- 分類 -->
-            <TextView
-                android:id="@+id/txtStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="餐飲"
-                android:textSize="13sp"
-                android:layout_marginTop="4dp"
-                android:textColor="#666666"/>
-
-            <!-- 日期 -->
-            <TextView
-                android:id="@+id/txtDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2026/03/06"
-                android:textSize="12sp"
-                android:textColor="#999999"
-                android:layout_marginTop="4dp"/>
-
-        </LinearLayout>
-
-        <!-- 刪除按鈕 -->
+        <!-- 右上刪除 -->
         <ImageButton
             android:id="@+id/btnDelete"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="8dp"
-            android:background="@android:color/transparent"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"/>
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="10dp"
+            android:background="#55000000"
+            android:padding="6dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            app:tint="#FFFFFF"/>
 
-    </RelativeLayout>
+        <!-- 中間金額 -->
+        <TextView
+            android:id="@+id/txtAmountBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="$120"
+            android:textColor="#FFFFFF"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="2"
+            android:shadowRadius="6"/>
+
+        <!-- 左下分類 -->
+        <TextView
+            android:id="@+id/txtStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="14dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="餐飲"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:background="#44000000"/>
+
+    </FrameLayout>
 
 </com.google.android.material.card.MaterialCardView>

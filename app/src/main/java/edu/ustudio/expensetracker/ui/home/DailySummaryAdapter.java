@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -54,7 +55,7 @@ public class DailySummaryAdapter extends RecyclerView.Adapter<DailySummaryAdapte
         String dateStr = df.format(new Date(s.expenseDate));
         h.txtDate.setText(dateStr);
 
-        h.txtCount.setText(s.expenseCount + " expenses");
+        h.txtCount.setText(s.expenseCount + " 筆");
 
         h.itemView.setOnClickListener(v -> {
 
@@ -87,13 +88,41 @@ public class DailySummaryAdapter extends RecyclerView.Adapter<DailySummaryAdapte
 
         });
 
+        h.shimmerCover.startShimmer();
+        h.shimmerCover.setVisibility(View.VISIBLE);
+
         if (s.coverImageUri != null && !s.coverImageUri.isEmpty()) {
 
             Glide.with(h.imgCover.getContext())
                     .load(new File(s.coverImageUri))
                     .centerCrop()
-                    .into(h.imgCover);
+                    .into(new com.bumptech.glide.request.target.CustomTarget<android.graphics.drawable.Drawable>() {
+                        @Override
+                        public void onResourceReady(@androidx.annotation.NonNull android.graphics.drawable.Drawable resource,
+                                                    com.bumptech.glide.request.transition.Transition<? super android.graphics.drawable.Drawable> transition) {
+                            h.imgCover.setImageDrawable(resource);
+                            h.shimmerCover.stopShimmer();
+                            h.shimmerCover.hideShimmer();
+                            h.shimmerCover.setVisibility(View.VISIBLE);
+                        }
 
+                        @Override
+                        public void onLoadCleared(android.graphics.drawable.Drawable placeholder) {
+                            h.imgCover.setImageDrawable(placeholder);
+                        }
+
+                        @Override
+                        public void onLoadFailed(android.graphics.drawable.Drawable errorDrawable) {
+                            h.imgCover.setImageResource(android.R.color.darker_gray);
+                            h.shimmerCover.stopShimmer();
+                            h.shimmerCover.hideShimmer();
+                        }
+                    });
+
+        } else {
+            h.imgCover.setImageResource(android.R.color.darker_gray);
+            h.shimmerCover.stopShimmer();
+            h.shimmerCover.hideShimmer();
         }
     }
 
@@ -109,6 +138,7 @@ public class DailySummaryAdapter extends RecyclerView.Adapter<DailySummaryAdapte
         TextView txtTotalAmount;
         TextView txtCount;
         ImageButton btnDeleteDay;
+        ShimmerFrameLayout shimmerCover;
 
         VH(@NonNull View itemView) {
             super(itemView);
@@ -118,6 +148,7 @@ public class DailySummaryAdapter extends RecyclerView.Adapter<DailySummaryAdapte
             txtTotalAmount = itemView.findViewById(R.id.txtTotalAmount);
             txtCount = itemView.findViewById(R.id.txtCount);
             btnDeleteDay = itemView.findViewById(R.id.btnDeleteDay);
+            shimmerCover = itemView.findViewById(R.id.shimmerCover);
         }
     }
 

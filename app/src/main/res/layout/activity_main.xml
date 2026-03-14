@@ -3,36 +3,70 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F7F4FA">
 
-    <!-- Top bar（簡潔企業感） -->
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <!-- 上方品牌列 -->
+    <LinearLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorSurface"
-        app:title="Expense Tracker"
-        app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingTop="18dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="14dp">
 
-    <!-- 內容區：之後放 IG 風卡片列表 -->
+        <!-- 左側佔位 -->
+        <FrameLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+        <!-- 中間標題 -->
+        <TextView
+            android:id="@+id/txtAppTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Expense Tracker"
+            android:textColor="#18121F"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!-- 右側預留給未來統計或設定 -->
+        <FrameLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+    </LinearLayout>
+
+    <!-- 內容區 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerExpenses"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:padding="16dp"
+        android:layout_marginTop="72dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="120dp"
         android:clipToPadding="false"
         android:layoutAnimation="@anim/layout_animation_fall_down"/>
 
-    <!-- FAB：新增 -->
+    <!-- FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="88dp"
         android:contentDescription="Add"
-        android:layout_margin="20dp"
         app:layout_anchor="@id/recyclerExpenses"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_input_add"/>
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:backgroundTint="#E7DAF8"
+        app:tint="#2A1446"
+        app:elevation="8dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

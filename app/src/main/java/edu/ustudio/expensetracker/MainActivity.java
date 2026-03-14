@@ -47,8 +47,19 @@ public class MainActivity extends AppCompatActivity {
 
         // 點每日摘要卡片上的 X → 刪除整天記帳
         adapter.setOnDeleteDayClickListener(date -> {
-            repository.deleteByDateAsync(date);
-            loadDailySummary();
+
+            new android.app.AlertDialog.Builder(MainActivity.this)
+                    .setTitle("刪除今日記帳")
+                    .setMessage("確定刪除今天所有記帳？")
+                    .setNegativeButton("取消", null)
+                    .setPositiveButton("刪除", (dialog, which) -> {
+
+                        repository.deleteByDateAsync(date);
+                        loadDailySummary();
+
+                    })
+                    .show();
+
         });
 
         // AddExpenseActivity 返回後刷新首頁

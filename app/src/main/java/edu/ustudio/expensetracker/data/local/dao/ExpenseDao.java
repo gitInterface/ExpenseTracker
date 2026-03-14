@@ -23,20 +23,26 @@ public interface ExpenseDao {
 
     @Query(
             "SELECT " +
-                    "expenseDate as expenseDate, " +
-                    "SUM(amount) as totalAmount, " +
-                    "MIN(imageUri) as coverImageUri, " +
-                    "COUNT(*) as expenseCount " +
-                    "FROM expense " +
-                    "GROUP BY expenseDate " +
-                    "ORDER BY expenseDate DESC"
+                    "MAX(e.expenseDate) AS expenseDate, " +
+                    "SUM(e.amount) AS totalAmount, " +
+                    "(" +
+                    "   SELECT imageUri FROM expense e2 " +
+                    "   WHERE date(e2.expenseDate/1000,'unixepoch','localtime') = date(e.expenseDate/1000,'unixepoch','localtime') " +
+                    "   ORDER BY e2.expenseDate DESC " +
+                    "   LIMIT 1" +
+                    ") AS coverImageUri, " +
+                    "COUNT(*) AS expenseCount " +
+                    "FROM expense e " +
+                    "GROUP BY date(e.expenseDate/1000,'unixepoch','localtime') " +
+                    "ORDER BY MAX(e.expenseDate) DESC"
     )
     List<DailySummary> getDailySummary();
 
     @Query(
             "SELECT * FROM expense " +
-                    "WHERE expenseDate = :date " +
-                    "ORDER BY createdAt DESC"
+                    "WHERE date(expenseDate/1000,'unixepoch','localtime') = " +
+                    "date(:date/1000,'unixepoch','localtime') " +
+                    "ORDER BY expenseDate DESC"
     )
     List<ExpenseEntity> getExpensesByDate(long date);
 
@@ -45,7 +51,8 @@ public interface ExpenseDao {
 
     @Query(
             "DELETE FROM expense " +
-                    "WHERE expenseDate = :date"
+                    "WHERE date(expenseDate/1000,'unixepoch','localtime') = " +
+                    "date(:date/1000,'unixepoch','localtime')"
     )
     void deleteByDate(long date);
 

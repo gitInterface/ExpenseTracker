@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 public class ExpenseEntity {
 
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     public int amount;
 

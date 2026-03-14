@@ -13,19 +13,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/imgCover"
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerCover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:background="#EAEAEA"
-            android:contentDescription="daily cover"/>
+            app:shimmer_auto_start="true"
+            app:shimmer_duration="1000"
+            app:shimmer_base_alpha="0.35"
+            app:shimmer_highlight_alpha="0.75">
 
-        <!-- 上層淡黑遮罩，讓文字更清楚 -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#33000000"/>
+            <ImageView
+                android:id="@+id/imgCover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:background="#F5F5F5"
+                android:contentDescription="daily cover"/>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <!-- 右上刪除 -->
         <ImageButton
@@ -34,10 +39,10 @@
             android:layout_height="36dp"
             android:layout_gravity="top|end"
             android:layout_margin="12dp"
-            android:background="#66000000"
+            android:background="#33000000"
             android:padding="8dp"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:tint="#FFFFFF"/>
+            app:tint="#FFFFFF" />
 
         <!-- 上方日期 -->
         <TextView
@@ -58,7 +63,7 @@
             android:layout_gravity="bottom"
             android:orientation="vertical"
             android:padding="18dp"
-            android:background="#88000000">
+            android:background="#44000000">
 
             <TextView
                 android:id="@+id/txtTotalAmount"

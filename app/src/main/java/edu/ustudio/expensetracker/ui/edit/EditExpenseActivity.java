@@ -92,12 +92,32 @@ public class EditExpenseActivity extends AppCompatActivity {
         repository = new ExpenseRepository(this);
 
         long expenseId = getIntent().getLongExtra("expenseId", -1);
+        if (expenseId == -1) {
+            android.widget.Toast.makeText(this, "資料錯誤", android.widget.Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         repository.getExpenseByIdAsync(expenseId, expense -> {
 
+            if (expense == null) {
+
+                runOnUiThread(() -> {
+                    android.widget.Toast.makeText(
+                            EditExpenseActivity.this,
+                            "資料不存在",
+                            android.widget.Toast.LENGTH_SHORT
+                    ).show();
+
+                    finish();
+                });
+
+                return;
+            }
+
             currentExpense = expense;
 
-            runOnUiThread(() -> loadExpense());
+            runOnUiThread(this::loadExpense);
 
         });
 
@@ -125,6 +145,10 @@ public class EditExpenseActivity extends AppCompatActivity {
     }
 
     private void loadExpense() {
+        if (currentExpense == null) {
+            finish();
+            return;
+        }
 
         editAmount.setText(String.valueOf(currentExpense.amount));
 
@@ -157,7 +181,16 @@ public class EditExpenseActivity extends AppCompatActivity {
 
     private void saveExpense() {
 
-        int amount = Integer.parseInt(editAmount.getText().toString());
+        String amountText = editAmount.getText().toString().trim();
+
+        if (amountText.isEmpty()) {
+
+            editAmount.setError("請輸入金額");
+            return;
+
+        }
+
+        int amount = Integer.parseInt(amountText);
 
         currentExpense.amount = amount;
         currentExpense.expenseDate = selectedDate;
