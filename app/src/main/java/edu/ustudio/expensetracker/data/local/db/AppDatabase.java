@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import edu.ustudio.expensetracker.data.local.dao.ExpenseDao;
 import edu.ustudio.expensetracker.data.local.entity.ExpenseEntity;
 
-@Database(entities = {ExpenseEntity.class}, version = 1, exportSchema = true)
+@Database(entities = {ExpenseEntity.class}, version = 2, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String DB_NAME = "expense_tracker.db";

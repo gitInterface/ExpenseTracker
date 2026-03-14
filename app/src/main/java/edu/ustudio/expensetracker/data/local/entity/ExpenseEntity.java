@@ -21,6 +21,8 @@ public class ExpenseEntity {
 
     public long createdAt;
 
+    public long expenseDate;
+
     public long classificationDeadline;
 
 }

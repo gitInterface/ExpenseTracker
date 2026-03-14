@@ -3,6 +3,8 @@ package edu.ustudio.expensetracker;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,43 +13,86 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import edu.ustudio.expensetracker.data.repository.ExpenseRepository;
 import edu.ustudio.expensetracker.ui.add.AddExpenseActivity;
-import edu.ustudio.expensetracker.ui.home.ExpenseCardAdapter;
+import edu.ustudio.expensetracker.ui.detail.DailyDetailActivity;
+import edu.ustudio.expensetracker.ui.home.DailySummaryAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private ExpenseCardAdapter adapter;
+    private DailySummaryAdapter adapter;
     private ExpenseRepository repository;
-    private androidx.activity.result.ActivityResultLauncher<Intent> addExpenseLauncher;
+    private ActivityResultLauncher<Intent> addExpenseLauncher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        addExpenseLauncher = registerForActivityResult(
-                new androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    // 只要從 Add 回來就刷新（成功/取消都可以先刷新，最簡單穩）
-                    loadExpenses();
-                }
-        );
 
+        // RecyclerView
         recyclerView = findViewById(R.id.recyclerExpenses);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ExpenseCardAdapter();
+
+        adapter = new DailySummaryAdapter();
         recyclerView.setAdapter(adapter);
 
+        // Repository
         repository = new ExpenseRepository(this);
 
-        FloatingActionButton fabAdd = findViewById(R.id.fabAdd);
-        fabAdd.setOnClickListener(v -> {
-            Intent i = new Intent(MainActivity.this, AddExpenseActivity.class);
-            addExpenseLauncher.launch(i);
+        // 點每日摘要卡片 → 進入當日明細頁
+        adapter.setOnDayClickListener(date -> {
+            Intent intent = new Intent(MainActivity.this, DailyDetailActivity.class);
+            intent.putExtra("expenseDate", date);
+            startActivity(intent);
         });
 
-        loadExpenses();
+        // 點每日摘要卡片上的 X → 刪除整天記帳
+        adapter.setOnDeleteDayClickListener(date -> {
+            repository.deleteByDateAsync(date);
+            loadDailySummary();
+        });
+
+        // AddExpenseActivity 返回後刷新首頁
+        addExpenseLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> loadDailySummary()
+        );
+
+        // FAB 新增記帳
+        FloatingActionButton fabAdd = findViewById(R.id.fabAdd);
+        fabAdd.setOnClickListener(v -> {
+            v.animate()
+                    .scaleX(0.9f)
+                    .scaleY(0.9f)
+                    .setDuration(80)
+                    .withEndAction(() -> {
+                        v.animate()
+                                .scaleX(1f)
+                                .scaleY(1f)
+                                .setDuration(80)
+                                .start();
+
+                        Intent intent = new Intent(MainActivity.this, AddExpenseActivity.class);
+                        addExpenseLauncher.launch(intent);
+                    })
+                    .start();
+        });
+
+        // 首次載入
+        loadDailySummary();
     }
 
-    private void loadExpenses() {
-        repository.getAllAsync(list -> runOnUiThread(() -> adapter.setItems(list)));
+    private void loadDailySummary() {
+        repository.getDailySummaryAsync(list ->
+                runOnUiThread(() -> {
+                    adapter.setItems(list);
+                    recyclerView.scheduleLayoutAnimation();
+                })
+        );
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadDailySummary();
     }
 }

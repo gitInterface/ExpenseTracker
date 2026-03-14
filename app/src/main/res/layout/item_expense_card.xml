@@ -1,70 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
+    android:layout_height="100dp"
+    android:layout_marginBottom="14dp"
     app:cardCornerRadius="18dp"
-    app:cardElevation="2dp"
-    app:strokeWidth="0dp">
+    app:cardElevation="4dp">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="240dp">
+        android:layout_height="match_parent">
 
+        <!-- 左側圖片 -->
         <ImageView
             android:id="@+id/imgExpense"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:background="#EEEEEE"
-            android:contentDescription="expense image"/>
+            android:background="#EAEAEA"/>
 
-        <!-- 金額 badge -->
-        <TextView
-            android:id="@+id/txtAmountBadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|end"
-            android:layout_margin="12dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:text="$0"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:textColor="#FFFFFF"
-            android:background="#AA000000"/>
-
-        <!-- 底部資訊列 -->
+        <!-- 右側資訊 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:padding="12dp"
-            android:orientation="vertical"
-            android:background="#66000000">
+            android:layout_toEndOf="@id/imgExpense"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="40dp"
+            android:orientation="vertical">
 
+            <!-- 金額 -->
+            <TextView
+                android:id="@+id/txtAmountBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$120"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <!-- 分類 -->
+            <TextView
+                android:id="@+id/txtStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="餐飲"
+                android:textSize="13sp"
+                android:layout_marginTop="4dp"
+                android:textColor="#666666"/>
+
+            <!-- 日期 -->
             <TextView
                 android:id="@+id/txtDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2026/03/06"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"/>
-
-            <TextView
-                android:id="@+id/txtStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="UNCLASSIFIED"
-                android:textColor="#FFFFFF"
                 android:textSize="12sp"
+                android:textColor="#999999"
                 android:layout_marginTop="4dp"/>
+
         </LinearLayout>
 
-    </FrameLayout>
+        <!-- 刪除按鈕 -->
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="8dp"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"/>
+
+    </RelativeLayout>
 
 </com.google.android.material.card.MaterialCardView>

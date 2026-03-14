@@ -21,7 +21,8 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
         android:padding="16dp"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        android:layoutAnimation="@anim/layout_animation_fall_down"/>
 
     <!-- FAB：新增 -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,6 +52,37 @@ public class ExpenseCardAdapter extends RecyclerView.Adapter<ExpenseCardAdapter.
         String status = (e.status == null || e.status.isEmpty()) ? "UNCLASSIFIED" : e.status;
         h.txtStatus.setText(status);
 
+        h.btnDelete.setOnClickListener(v -> {
+
+            if (deleteListener != null) {
+                deleteListener.onDelete(e);
+            }
+
+        });
+
+        h.itemView.setOnClickListener(v -> {
+
+            v.animate()
+                    .scaleX(0.95f)
+                    .scaleY(0.95f)
+                    .setDuration(80)
+                    .withEndAction(() -> {
+
+                        v.animate()
+                                .scaleX(1f)
+                                .scaleY(1f)
+                                .setDuration(80)
+                                .start();
+
+                        if (cardClickListener != null) {
+                            cardClickListener.onCardClick(e);
+                        }
+
+                    })
+                    .start();
+
+        });
+
         // 圖片：先用 URI 顯示（之後我們會改成 copy 到 app private storage）
         if (e.imageUri != null && !e.imageUri.isEmpty()) {
             try {
@@ -76,6 +108,7 @@ public class ExpenseCardAdapter extends RecyclerView.Adapter<ExpenseCardAdapter.
         TextView txtAmountBadge;
         TextView txtDate;
         TextView txtStatus;
+        ImageButton btnDelete;
 
         VH(@NonNull View itemView) {
             super(itemView);
@@ -83,6 +116,23 @@ public class ExpenseCardAdapter extends RecyclerView.Adapter<ExpenseCardAdapter.
             txtAmountBadge = itemView.findViewById(R.id.txtAmountBadge);
             txtDate = itemView.findViewById(R.id.txtDate);
             txtStatus = itemView.findViewById(R.id.txtStatus);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
         }
+    }
+
+    private OnDeleteClickListener deleteListener;
+    public interface OnDeleteClickListener {
+        void onDelete(ExpenseEntity expense);
+    }
+    public void setOnDeleteClickListener(OnDeleteClickListener l) {
+        deleteListener = l;
+    }
+
+    private OnCardClickListener cardClickListener;
+    public interface OnCardClickListener {
+        void onCardClick(ExpenseEntity expense);
+    }
+    public void setOnCardClickListener(OnCardClickListener l) {
+        cardClickListener = l;
     }
 }
