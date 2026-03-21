@@ -153,6 +153,19 @@ Expense Edit Page
 - Improved FAB safe area and detail screen layout
 - Refined detail card UI
 
+### Day 2.7
+- Implement category system (Add / Edit Expense with dropdown)
+- Default category set to "未分類"
+- Replace status display with category in expense cards
+- Add monthly statistics (Year / Month picker with dialog UI)
+- Integrate Pie Chart (MPAndroidChart) for category breakdown
+- Display total monthly amount in chart center
+- Add Top Category and Record Count summary
+- Implement category breakdown list (amount + percentage)
+- Synchronize category colors between chart and list
+- Improve UI layout, spacing, and visual hierarchy
+- Fix legacy data issue ("UNCLASSIFIED" → "未分類")
+
 ### Upcoming
 
 Day 3  
