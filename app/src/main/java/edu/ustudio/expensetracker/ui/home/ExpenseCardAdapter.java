@@ -49,8 +49,11 @@ public class ExpenseCardAdapter extends RecyclerView.Adapter<ExpenseCardAdapter.
         String dateStr = df.format(new Date(e.createdAt));
         h.txtDate.setText(dateStr);
 
-        String status = (e.status == null || e.status.isEmpty()) ? "UNCLASSIFIED" : e.status;
-        h.txtStatus.setText(status);
+        String category = (e.category == null || e.category.trim().isEmpty() || e.category.equalsIgnoreCase("UNCLASSIFIED"))
+                ? "未分類"
+                : e.category;
+
+        h.txtStatus.setText(category);
 
         h.btnDelete.setOnClickListener(v -> {
 

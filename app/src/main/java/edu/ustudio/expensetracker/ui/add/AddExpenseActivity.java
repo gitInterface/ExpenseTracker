@@ -1,9 +1,11 @@
 package edu.ustudio.expensetracker.ui.add;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -24,6 +26,18 @@ public class AddExpenseActivity extends AppCompatActivity {
     private Button btnTakePhoto;
     private android.net.Uri selectedImageUri = null;
     private TextView txtDate;
+    private Spinner spinnerCategory;
+    private final String[] categories = {
+            "未分類",
+            "餐飲",
+            "交通",
+            "購物",
+            "娛樂",
+            "醫療",
+            "美容",
+            "帳單",
+            "其他"
+    };
     private long selectedDate;
     private ActivityResultLauncher<String> pickImageLauncher;
 
@@ -59,6 +73,19 @@ public class AddExpenseActivity extends AppCompatActivity {
             ).show();
 
         });
+
+        spinnerCategory = findViewById(R.id.spinnerCategory);
+
+        ArrayAdapter<String> categoryAdapter =
+                new ArrayAdapter<>(
+                        this,
+                        android.R.layout.simple_spinner_dropdown_item,
+                        categories
+                );
+
+        spinnerCategory.setAdapter(categoryAdapter);
+        spinnerCategory.setSelection(0); // 預設未分類
+
         selectedDate = System.currentTimeMillis();
         updateDateLabel();
         buttonSave = findViewById(R.id.buttonSave);
@@ -124,7 +151,7 @@ public class AddExpenseActivity extends AppCompatActivity {
             expense.imageUri = "";
         }
 
-        expense.category = "";
+        expense.category = spinnerCategory.getSelectedItem().toString();
 
         repository.insertAsync(expense, id -> {
             runOnUiThread(() -> {

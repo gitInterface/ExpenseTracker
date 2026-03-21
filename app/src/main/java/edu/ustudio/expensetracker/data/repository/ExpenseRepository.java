@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 import edu.ustudio.expensetracker.data.local.dao.ExpenseDao;
 import edu.ustudio.expensetracker.data.local.db.AppDatabase;
 import edu.ustudio.expensetracker.data.local.entity.ExpenseEntity;
+import edu.ustudio.expensetracker.data.model.CategoryTotal;
 import edu.ustudio.expensetracker.data.model.DailySummary;
 
 public class ExpenseRepository {
@@ -104,5 +105,82 @@ public class ExpenseRepository {
             expenseDao.updateExpense(expense);
         });
 
+    }
+
+    public void getTodayTotalAsync(ResultCallback<Integer> callback) {
+        dbExecutor.execute(() -> {
+            int total = expenseDao.getTodayTotal();
+            if (callback != null) {
+                callback.onResult(total);
+            }
+        });
+    }
+
+    public void getMonthTotalAsync(ResultCallback<Integer> callback) {
+        dbExecutor.execute(() -> {
+            int total = expenseDao.getMonthTotal();
+            if (callback != null) {
+                callback.onResult(total);
+            }
+        });
+    }
+
+    public void getYearTotalAsync(ResultCallback<Integer> callback) {
+        dbExecutor.execute(() -> {
+            int total = expenseDao.getYearTotal();
+            if (callback != null) {
+                callback.onResult(total);
+            }
+        });
+    }
+
+    public void getCategoryTotalsAsync(ResultCallback<List<CategoryTotal>> callback) {
+
+        dbExecutor.execute(() -> {
+
+            List<CategoryTotal> list = expenseDao.getCategoryTotals();
+
+            if (callback != null) {
+                callback.onResult(list);
+            }
+
+        });
+    }
+
+    public void getMonthTotalByYearMonthAsync(String year, String month, ResultCallback<Integer> callback) {
+        dbExecutor.execute(() -> {
+            int total = expenseDao.getMonthTotalByYearMonth(year, month);
+            if (callback != null) {
+                callback.onResult(total);
+            }
+        });
+    }
+
+    public void getCategoryTotalsByYearMonthAsync(String year, String month, ResultCallback<List<CategoryTotal>> callback) {
+        dbExecutor.execute(() -> {
+            List<CategoryTotal> list = expenseDao.getCategoryTotalsByYearMonth(year, month);
+            if (callback != null) {
+                callback.onResult(list);
+            }
+        });
+    }
+
+    public void getAvailableYearsAsync(ResultCallback<List<String>> callback) {
+        dbExecutor.execute(() -> {
+            List<String> years = expenseDao.getAvailableYears();
+
+            if (callback != null) {
+                callback.onResult(years);
+            }
+        });
+    }
+
+    public void getRecordCountByYearMonthAsync(String year, String month, ResultCallback<Integer> callback) {
+        dbExecutor.execute(() -> {
+            int count = expenseDao.getRecordCountByYearMonth(year, month);
+            if (callback != null) {
+                callback.onResult(count);
+            }
+        });
     }
 }

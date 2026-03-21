@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExpenseTracker">
         <activity
+            android:name=".ui.stats.StatsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.classify.ClassifyActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.edit.EditExpenseActivity"
             android:exported="false" />
         <activity

@@ -1,0 +1,16 @@
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- 上方 toggle 外框 -->
+    <path android:strokeColor="#000000" android:strokeWidth="2" android:strokeLineCap="round" android:fillColor="@android:color/transparent" android:pathData="M4,7C4,5.9 4.9,5 6,5H12C13.1,5 14,5.9 14,7C14,8.1 13.1,9 12,9H6C4.9,9 4,8.1 4,7Z" />
+    <!-- 上方圓點 -->
+    <path android:fillColor="#000000" android:pathData="M11,7m-1.6,0a1.6,1.6 0 1,0 3.2,0a1.6,1.6 0 1,0 -3.2,0"/>
+    <!-- 下方 toggle 外框 -->
+    <path android:strokeColor="#000000" android:strokeWidth="2" android:strokeLineCap="round" android:fillColor="@android:color/transparent" android:pathData="M10,17C10,15.9 10.9,15 12,15H18C19.1,15 20,15.9 20,17C20,18.1 19.1,19 18,19H12C10.9,19 10,18.1 10,17Z" />
+    <!-- 下方圓點 -->
+    <path android:fillColor="#000000"
+    android:pathData="M13,17m-1.6,0a1.6,1.6 0 1,0 3.2,0a1.6,1.6 0 1,0 -3.2,0"/>
+</vector>

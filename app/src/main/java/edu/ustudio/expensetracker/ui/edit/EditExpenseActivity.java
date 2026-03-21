@@ -29,13 +29,14 @@ public class EditExpenseActivity extends AppCompatActivity {
     private TextView txtDate;
     private Spinner spinnerCategory;
     private final String[] categories = {
+            "未分類",
             "餐飲",
-            "購物",
             "交通",
-            "帳單",
-            "醫療",
+            "購物",
             "娛樂",
+            "醫療",
             "美容",
+            "帳單",
             "其他"
     };
     private Button buttonSave;
@@ -156,8 +157,12 @@ public class EditExpenseActivity extends AppCompatActivity {
 
         updateDateLabel();
 
+        String currentCategory = currentExpense.category;
+        if (currentCategory == null || currentCategory.trim().isEmpty()) {
+            currentCategory = "未分類";
+        }
         for (int i = 0; i < categories.length; i++) {
-            if (categories[i].equals(currentExpense.category)) {
+            if (categories[i].equals(currentCategory)) {
                 spinnerCategory.setSelection(i);
                 break;
             }
@@ -195,8 +200,7 @@ public class EditExpenseActivity extends AppCompatActivity {
         currentExpense.amount = amount;
         currentExpense.expenseDate = selectedDate;
 
-        String category = spinnerCategory.getSelectedItem().toString();
-        currentExpense.category = category;
+        currentExpense.category = spinnerCategory.getSelectedItem().toString();
 
         if (selectedImageUri != null) {
             currentExpense.imageUri = selectedImageUri.toString();

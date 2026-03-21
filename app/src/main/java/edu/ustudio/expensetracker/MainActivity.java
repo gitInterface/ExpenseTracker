@@ -2,6 +2,7 @@ package edu.ustudio.expensetracker;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -9,15 +10,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import edu.ustudio.expensetracker.data.repository.ExpenseRepository;
 import edu.ustudio.expensetracker.ui.add.AddExpenseActivity;
+import edu.ustudio.expensetracker.ui.classify.ClassifyActivity;
 import edu.ustudio.expensetracker.ui.detail.DailyDetailActivity;
 import edu.ustudio.expensetracker.ui.home.DailySummaryAdapter;
+import edu.ustudio.expensetracker.ui.settings.SettingsActivity;
+import edu.ustudio.expensetracker.ui.stats.StatsActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TextView txtTodayAmount;
+    private TextView txtMonthAmount;
+    private TextView txtYearAmount;
     private RecyclerView recyclerView;
     private DailySummaryAdapter adapter;
     private ExpenseRepository repository;
@@ -27,6 +35,44 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        txtTodayAmount = findViewById(R.id.txtTodayAmount);
+        txtMonthAmount = findViewById(R.id.txtMonthAmount);
+        txtYearAmount = findViewById(R.id.txtYearAmount);
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
+
+        bottomNav.setSelectedItemId(R.id.nav_home);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+
+            if (item.getItemId() == R.id.nav_home) {
+                return true;
+            }
+
+            if (item.getItemId() == R.id.nav_stats) {
+                startActivity(new Intent(this, StatsActivity.class));
+                overridePendingTransition(0,0);
+                finish();
+                return true;
+            }
+
+            if (item.getItemId() == R.id.nav_classify) {
+                startActivity(new Intent(this, ClassifyActivity.class));
+                overridePendingTransition(0,0);
+                finish();
+                return true;
+            }
+
+            if (item.getItemId() == R.id.nav_settings) {
+                startActivity(new Intent(this, SettingsActivity.class));
+                overridePendingTransition(0,0);
+                finish();
+                return true;
+            }
+
+            return false;
+        });
 
         // RecyclerView
         recyclerView = findViewById(R.id.recyclerExpenses);
@@ -56,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
                         repository.deleteByDateAsync(date);
                         loadDailySummary();
+                        loadDashboardTotals();
 
                     })
                     .show();
@@ -90,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 首次載入
         loadDailySummary();
+        loadDashboardTotals();
     }
 
     private void loadDailySummary() {
@@ -101,9 +149,26 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    private void loadDashboardTotals() {
+
+        repository.getTodayTotalAsync(total ->
+                runOnUiThread(() -> txtTodayAmount.setText("$" + total))
+        );
+
+        repository.getMonthTotalAsync(total ->
+                runOnUiThread(() -> txtMonthAmount.setText("$" + total))
+        );
+
+        repository.getYearTotalAsync(total ->
+                runOnUiThread(() -> txtYearAmount.setText("$" + total))
+        );
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         loadDailySummary();
+        loadDashboardTotals();
     }
+
 }

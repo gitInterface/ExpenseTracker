@@ -6,48 +6,143 @@
     android:layout_height="match_parent"
     android:background="#F7F4FA">
 
-    <!-- 上方品牌列 -->
-    <LinearLayout
-        android:id="@+id/topBar"
-        android:layout_width="match_parent"
+    <!-- 標題 -->
+    <TextView
+        android:id="@+id/txtAppTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:paddingTop="18dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="14dp">
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="Expense Tracker"
+        android:textColor="#18121F"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-        <!-- 左側佔位 -->
-        <FrameLayout
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
+    <!-- Dashboard Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardDashboard"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="26dp"
+        app:cardElevation="6dp"
+        app:strokeWidth="0dp">
 
-        <!-- 中間標題 -->
-        <TextView
-            android:id="@+id/txtAppTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Expense Tracker"
-            android:textColor="#18121F"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center">
 
-        <!-- 右側預留給未來統計或設定 -->
-        <FrameLayout
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
+            <!-- TODAY -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/txtTodayLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Today"
+                    android:textColor="#7A7283"
+                    android:textSize="12sp"/>
 
-    <!-- 內容區 -->
+                <TextView
+                    android:id="@+id/txtTodayAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="$240"
+                    android:textColor="#1A1423"
+                    android:textSize="22sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="1dp"
+                android:layout_height="40dp"
+                android:background="#E6E1EC"/>
+
+            <!-- MONTH -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtMonthLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Month"
+                    android:textColor="#7A7283"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/txtMonthAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="$3200"
+                    android:textColor="#1A1423"
+                    android:textSize="22sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="1dp"
+                android:layout_height="40dp"
+                android:background="#E6E1EC"/>
+
+            <!-- YEAR -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtYearLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Year"
+                    android:textColor="#7A7283"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/txtYearAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="$18900"
+                    android:textColor="#1A1423"
+                    android:textSize="22sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- 列表 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerExpenses"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="190dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingBottom="120dp"
@@ -60,13 +155,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="88dp"
+        android:layout_marginBottom="150dp"
+        android:layout_gravity="bottom|end"
         android:contentDescription="Add"
-        app:layout_anchor="@id/recyclerExpenses"
-        app:layout_anchorGravity="bottom|end"
         app:srcCompat="@android:drawable/ic_input_add"
         app:backgroundTint="#E7DAF8"
         app:tint="#2A1446"
         app:elevation="8dp" />
+
+    <!-- Bottom Nav -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#FFFFFF"
+
+        app:menu="@menu/bottom_nav_menu"
+
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconSize="26dp"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemRippleColor="@android:color/transparent"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
